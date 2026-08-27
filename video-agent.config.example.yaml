@@ -1,0 +1,10 @@
+jobs_root: work/jobs
+data_root: data
+
+gpu_profiles:
+  my_4090:
+    host: your.gpu.ssh.host
+    port: 22
+    user: root
+    remote_root: /root/autodl-tmp/video-learning-agent
+    password_env: VIDEO_GPU_PASSWORD

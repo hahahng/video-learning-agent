@@ -1,0 +1,14 @@
+.DS_Store
+__pycache__/
+.pytest_cache/
+.venv/
+dist/
+build/
+*.egg-info/
+data/
+work/jobs/
+video-agent.config.yaml
+*.sqlite
+*.db
+.env
+
