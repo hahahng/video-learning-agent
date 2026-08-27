@@ -107,7 +107,13 @@ video-agent search "文件系统"
 
 ### 1. 租 GPU 云主机
 
-任选支持 SSH 的 GPU 云平台。流程通常是：
+任选支持 SSH 的 GPU 云平台。比如 AutoDL 控制台：
+
+```text
+https://www.autodl.com/console/instance/list
+```
+
+通用流程是：
 
 1. 选择 GPU 实例，比如 4090。
 2. 选择 Ubuntu 镜像。
@@ -127,6 +133,27 @@ video-agent search "文件系统"
 只要这一步能登录，Agent 就能接管后面的安装依赖、上传任务、跑 ASR、拉回结果。
 
 更多细节见：[GPU ASR 使用说明](docs/gpu-asr.md)
+
+### AutoDL 示例
+
+如果使用 AutoDL：
+
+1. 打开 [AutoDL 实例列表](https://www.autodl.com/console/instance/list)。
+2. 新建或启动一台 GPU 实例。
+3. 推荐选择 4090，系统镜像选择 Ubuntu。
+4. 进入实例详情页，复制 SSH 登录信息。
+5. 你会拿到类似这样的信息：
+   ```text
+   host: connect.xxx.autodl.com 或平台提供的连接地址
+   port: 具体端口
+   user: root
+   password: 实例密码
+   ```
+6. 先本地测试：
+   ```bash
+   ssh -p <port> root@<host>
+   ```
+7. 能登录后，把 host/port/user 写进 `video-agent.config.yaml`，密码放进环境变量。
 
 ### 2. 配置 GPU SSH
 
@@ -329,4 +356,3 @@ video-agent search "能做什么 AI 项目" --chroma
 python3 -m compileall video_learning_agent tests
 python3 -m pytest -q
 ```
-

@@ -50,7 +50,13 @@ video-agent run-remote-asr <job_id> --gpu-profile my_4090 --asr-workers 1
 
 ## 租机器流程
 
-大部分 GPU 云平台流程类似：
+大部分 GPU 云平台流程类似。以 AutoDL 为例，可以从实例列表进入：
+
+```text
+https://www.autodl.com/console/instance/list
+```
+
+通用步骤：
 
 1. 新建 GPU 实例。
 2. 选择 Ubuntu 镜像。
@@ -69,6 +75,53 @@ video-agent run-remote-asr <job_id> --gpu-profile my_4090 --asr-workers 1
    ```
 
 能 SSH 登录后，Agent 就能工作。
+
+## AutoDL 示例
+
+如果使用 AutoDL：
+
+1. 打开 [AutoDL 实例列表](https://www.autodl.com/console/instance/list)。
+2. 新建一台 GPU 实例，或启动已有实例。
+3. GPU 推荐选 4090；如果只是少量视频，A10 也可以。
+4. 镜像选 Ubuntu。
+5. 数据盘建议 50GB 起步，批量视频建议 100GB+。
+6. 进入实例详情，找到 SSH 登录信息。
+7. 记录这几项：
+   ```text
+   host
+   port
+   user
+   password
+   ```
+8. 本地测试：
+   ```bash
+   ssh -p <port> <user>@<host>
+   ```
+9. 能登录后，把 SSH 信息写进 profile。
+
+AutoDL 的页面可能会显示一整条 SSH 命令，例如：
+
+```bash
+ssh -p 12345 root@connect.example.com
+```
+
+对应到配置就是：
+
+```yaml
+gpu_profiles:
+  autodl_4090:
+    host: connect.example.com
+    port: 12345
+    user: root
+    remote_root: /root/autodl-tmp/video-learning-agent
+    password_env: AUTODL_PASSWORD
+```
+
+然后设置：
+
+```bash
+export AUTODL_PASSWORD='实例密码'
+```
 
 ## 配置 profile
 
@@ -209,4 +262,3 @@ ASR 是短时重计算任务。建议：
 5. 手动关机或释放云主机。
 
 这样成本最低，也最不容易丢数据。
-
